@@ -33,10 +33,16 @@ export const userLogin = catchAsync(
 
         user.password = undefined
 
+        res.cookie('authToken', token, {
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'strict', 
+            maxAge: 60 * 60 * 1000, 
+        });
+
         res.status(200).send({
             message: "user found",
-            user: user,
-            token
+            user: user
         })
     }
 )
