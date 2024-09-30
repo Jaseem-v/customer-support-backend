@@ -22,17 +22,7 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8 // Password should be at least 8 characters long
-    },
-    confirmPassword: {
-        type: String,
-        required: true,
-        validate: {
-            validator: function (v) {
-                return v === this.password; // Confirm password matches the password field
-            },
-            message: props => `Passwords do not match!`
-        }
-    },
+    }
 },
     {
         toJSON: { virtuals: true },
