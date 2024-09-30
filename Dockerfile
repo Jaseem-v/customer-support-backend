@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the port the app runs on
-EXPOSE 5000
+EXPOSE 7000
 
 # Define environment variable (can be overridden at runtime)
 ENV NODE_ENV=production
