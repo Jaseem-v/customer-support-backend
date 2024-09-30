@@ -58,32 +58,17 @@ export const userRegister = catchAsync(
             return next(new AppError('Email is already registered!', 400));
         }
 
-        // Hash the password before saving
-        const hashedPassword = await bcrypt.hash(password, 12);
-
         // Create a new user
         const newUser = await userScheme.create({
             email,
-            password: hashedPassword,
+            password,
             name
-        });
-
-        // Generate a JWT token
-        const token = jwt.sign({ userId: newUser._id, role: "USER" }, process.env.SECRET_KEY, {
-            expiresIn: '30d'
         });
 
         // Hide the password in the response
         newUser.password = undefined;
 
-        // Set the token as an HTTP-only cookie
-        res.cookie('authToken', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 60 * 60 * 1000, // 1 hour
-        });
-
+     
         // Send response
         res.status(201).send({
             message: 'User registered successfully',
